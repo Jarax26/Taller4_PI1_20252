@@ -2,7 +2,7 @@
 URL configuration for moviereviews project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.2/topics/http/urls/
+    https://docs.djangoproject.com/en/5.0/topics/http/urls/
 Examples:
 Function views
     1. Add an import:  from my_app import views
@@ -14,17 +14,21 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
-from django.urls import path
-from movie import views as movie_views
+from django.urls import path, include
+from movie import views as movieViews
 
 from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', movie_views.home),
-    path('about/', movie_views.about),
+    path("admin/", admin.site.urls),
+    path("",movieViews.home, name='home'),  
+    path("about/",movieViews.about, name='about'),  
+    path("news/", include('news.urls'), name='news'), 
+    path("statistics/", movieViews.statistics_page_view, name='statistics'),
+    path('signup/', movieViews.signup, name='signup'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
